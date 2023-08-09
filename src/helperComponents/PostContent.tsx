@@ -12,7 +12,6 @@ interface PostContentProps {
  * @return {JSX.Element} The rendered post content.
  */
 const PostContent = ({ image, body }: PostContentProps): JSX.Element => {
-  console.log(image);
   return (
     <CardContent sx={{ borderBottom: 1, borderColor: "#ccc" }}>
       <CardMedia

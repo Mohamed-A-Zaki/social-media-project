@@ -14,7 +14,7 @@ interface PostFooterProps {
  */
 const PostFooter = ({ commentsCount }: PostFooterProps): JSX.Element => {
   return (
-    <CardActions sx={{ marginLeft: 1, gap: 1, paddingTop: 2 }}>
+    <CardActions sx={{ marginLeft: 1, paddingInline: 2, gap: 1 }}>
       <ModeIcon />
       <Typography>({commentsCount}) Comments</Typography>
     </CardActions>
