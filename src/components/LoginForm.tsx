@@ -7,16 +7,19 @@ import {
   DialogContent,
 } from "@mui/material";
 
+import { login } from "../store/authSlice";
+
 import * as yup from "yup";
 import { Formik, Form } from "formik";
 
 import { closeDrawer } from "../store/loginFormSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import ErrorMessage from "../helperComponents/ErrorMessage";
 
 const LoginForm = () => {
-  const { open } = useAppSelector((state) => state.loginForm);
-
   const dispatch = useAppDispatch();
+  const { error } = useAppSelector((state) => state.auth);
+  const { open } = useAppSelector((state) => state.loginForm);
 
   const handleClose = () => dispatch(closeDrawer());
 
@@ -31,36 +34,39 @@ const LoginForm = () => {
     >
       <Formik
         initialValues={{
-          email: "example@example.com",
-          password: "12345",
+          username: "Mohamed_12",
+          password: "123456",
         }}
         validationSchema={yup.object({
-          email: yup.string().email().required(),
-          password: yup.string().required(),
+          username: yup.string().required(),
+          password: yup.string().required().min(6),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            console.log(values);
+          dispatch(login(values)).then(() => {
             setSubmitting(false);
-          }, 2000);
+          });
         }}
       >
         {({ errors, touched, isSubmitting, getFieldProps }) => (
           <Form noValidate>
-            <DialogTitle textAlign="center" variant="h4" sx={{ pb: 0 }}>
+            <DialogTitle textAlign="center" variant="h4">
               Login
             </DialogTitle>
 
             <DialogContent>
+              {error && <ErrorMessage>{error}</ErrorMessage>}
+
               <TextField
-                label="Email"
+                label="Username"
                 variant="outlined"
-                type="email"
+                type="text"
                 required
                 sx={{ width: 1, mt: 2 }}
-                {...getFieldProps("email")}
-                helperText={touched.email && errors.email && errors.email}
-                error={!!(touched.email && errors.email)}
+                {...getFieldProps("username")}
+                helperText={
+                  touched.username && errors.username && errors.username
+                }
+                error={!!(touched.username && errors.username)}
               />
 
               <TextField
