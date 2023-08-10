@@ -45,8 +45,10 @@ const authSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
         state.token = payload;
+        state.error = "";
       })
       .addCase(login.rejected, (state, { error }) => {
+        state.token = "";
         state.error = error.message as string;
       });
   },
