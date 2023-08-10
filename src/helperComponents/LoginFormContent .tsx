@@ -1,9 +1,4 @@
-import {
-  Button,
-  DialogTitle,
-  DialogActions,
-  DialogContent,
-} from "@mui/material";
+import { DialogTitle, DialogContent } from "@mui/material";
 
 import * as yup from "yup";
 import { Formik, Form } from "formik";
@@ -12,8 +7,8 @@ import ErrorMessage from "./ErrorMessage";
 import LoginFormTextField from "./LoginFormTextField";
 
 import { login } from "../store/authSlice";
-import { closeDrawer } from "../store/loginFormSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import LoginFormActions from "./LoginFormActions";
 
 /**
  * Renders the content of the login form.
@@ -46,7 +41,7 @@ const LoginFormContent = (): JSX.Element => {
           </DialogTitle>
 
           <DialogContent>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <ErrorMessage errorMessage={error} />
 
             <LoginFormTextField
               type="text"
@@ -67,24 +62,7 @@ const LoginFormContent = (): JSX.Element => {
             />
           </DialogContent>
 
-          <DialogActions sx={{ px: 3, pt: 0, pb: 2.5 }}>
-            <Button
-              color="error"
-              variant="contained"
-              onClick={() => dispatch(closeDrawer())}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              type="submit"
-              color="success"
-              variant="contained"
-              disabled={isSubmitting}
-            >
-              Login
-            </Button>
-          </DialogActions>
+          <LoginFormActions disabled={isSubmitting} />
         </Form>
       )}
     </Formik>

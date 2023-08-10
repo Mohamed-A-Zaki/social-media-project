@@ -10,12 +10,6 @@ interface LoginFormTextFieldProps {
   getFieldProps: <V>(props: string | FieldConfig<V>) => FieldInputProps<V>;
 }
 
-/**
- * Renders a text field component for a login form.
- *
- * @param {LoginFormTextFieldProps} props - The properties for the text field component.
- * @return {JSX.Element} The rendered text field component.
- */
 const LoginFormTextField = (props: LoginFormTextFieldProps): JSX.Element => {
   const { label, name, error, touched, type, getFieldProps } = props;
 
