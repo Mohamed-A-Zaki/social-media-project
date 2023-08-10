@@ -1,4 +1,5 @@
 import "./App.css";
+import LoginForm from "./components/LoginForm";
 import Navbar from "./components/Navbar";
 import PostsList from "./components/PostsList";
 
@@ -12,6 +13,7 @@ const App = (): JSX.Element => {
     <>
       <Navbar />
       <PostsList />
+      <LoginForm />
     </>
   );
 };
