@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { login } from "./authSlice";
 
 const initialState = {
   open: false,
@@ -8,15 +9,20 @@ export const loginFormSlice = createSlice({
   name: "loginForm",
   initialState,
   reducers: {
-    openDrawer: (state) => {
+    openLoginDrawer: (state) => {
       state.open = true;
     },
-    closeDrawer: (state) => {
+    closeLoginDrawer: (state) => {
       state.open = false;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state) => {
+      state.open = false;
+    });
+  },
 });
 
-export const { openDrawer, closeDrawer } = loginFormSlice.actions;
+export const { openLoginDrawer, closeLoginDrawer } = loginFormSlice.actions;
 
 export default loginFormSlice.reducer;

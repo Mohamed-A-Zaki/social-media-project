@@ -4,39 +4,43 @@ import * as yup from "yup";
 import { Formik, Form } from "formik";
 
 import ErrorMessage from "./ErrorMessage";
-import LoginFormActions from "./LoginFormActions";
+import SignupFormActions from "./SignupFormActions";
 import LoginFormTextField from "./LoginFormTextField";
 
-import { login } from "../store/authSlice";
+import { signup } from "../store/authSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 /**
- * Renders the content of the login form.
+ * Generates the content for the signup form.
  *
- * @return {JSX.Element} The rendered login form content.
+ * @return {JSX.Element} The JSX element representing the signup form content.
  */
-const LoginFormContent = (): JSX.Element => {
+const SignupFormContent = () => {
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.auth);
 
   return (
     <Formik
       initialValues={{
+        name: "Mohamed",
         username: "Mohamed_123",
+        email: "example@example.com",
         password: "123456",
       }}
       validationSchema={yup.object({
+        name: yup.string().required(),
         username: yup.string().required(),
+        email: yup.string().email().required(),
         password: yup.string().required().min(6),
       })}
       onSubmit={async (values) => {
-        await dispatch(login(values));
+        await dispatch(signup(values));
       }}
     >
       {({ errors, touched, isSubmitting, getFieldProps }) => (
         <Form noValidate>
           <DialogTitle textAlign="center" variant="h4">
-            Login
+            Register New User
           </DialogTitle>
 
           <DialogContent>
@@ -44,10 +48,28 @@ const LoginFormContent = (): JSX.Element => {
 
             <LoginFormTextField
               type="text"
+              name="name"
+              label="name"
+              error={errors.name}
+              touched={touched.name}
+              getFieldProps={getFieldProps}
+            />
+
+            <LoginFormTextField
+              type="text"
               name="username"
               label="Username"
               error={errors.username}
               touched={touched.username}
+              getFieldProps={getFieldProps}
+            />
+
+            <LoginFormTextField
+              type="email"
+              name="email"
+              label="email"
+              error={errors.email}
+              touched={touched.email}
               getFieldProps={getFieldProps}
             />
 
@@ -61,11 +83,11 @@ const LoginFormContent = (): JSX.Element => {
             />
           </DialogContent>
 
-          <LoginFormActions disabled={isSubmitting} />
+          <SignupFormActions disabled={isSubmitting} />
         </Form>
       )}
     </Formik>
   );
 };
 
-export default LoginFormContent;
+export default SignupFormContent;

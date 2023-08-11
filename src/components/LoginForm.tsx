@@ -1,9 +1,8 @@
 import { Dialog } from "@mui/material";
-
-import { closeDrawer } from "../store/loginFormSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-
 import LoginFormContent from "../helperComponents/LoginFormContent ";
+
+import { closeLoginDrawer } from "../store/loginFormSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 /**
  * Renders the login form component.
@@ -19,7 +18,7 @@ const LoginForm = (): JSX.Element => {
       open={open}
       fullWidth
       maxWidth="sm"
-      onClose={() => dispatch(closeDrawer())}
+      onClose={() => dispatch(closeLoginDrawer())}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >

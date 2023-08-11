@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../store/hooks";
-import { closeDrawer } from "../store/loginFormSlice";
+import { closeLoginDrawer } from "../store/loginFormSlice";
 import { Button, DialogActions } from "@mui/material";
 
 type LoginFormActionsProps = {
@@ -20,7 +20,7 @@ const LoginFormActions = ({ disabled }: LoginFormActionsProps): JSX.Element => {
       <Button
         color="error"
         variant="contained"
-        onClick={() => dispatch(closeDrawer())}
+        onClick={() => dispatch(closeLoginDrawer())}
       >
         Cancel
       </Button>
