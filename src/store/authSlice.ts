@@ -1,24 +1,24 @@
 import axios from "axios";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-type initialStateType = {
+type InitialState = {
   user: UserType | null;
   token: string;
   error: string;
 };
 
-const initialState: initialStateType = {
+const initialState: InitialState = {
   user: null,
   token: "",
   error: "",
 };
 
-type loginBodyType = {
+type loginBody = {
   username: string;
   password: string;
 };
 
-type signupBodyType = {
+type signupBody = {
   name: string;
   username: string;
   email: string;
@@ -34,7 +34,7 @@ type UserType = {
   posts_count: number;
 };
 
-type authResponseType = {
+type authResponse = {
   user: UserType;
   token: string;
 };
@@ -43,25 +43,25 @@ const baseUrl = "https://tarmeezacademy.com/api/v1";
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (values: loginBodyType) => {
+  async (values: loginBody) => {
     const url = `${baseUrl}/login`;
-    const { data } = await axios.post<authResponseType>(url, values);
+    const { data } = await axios.post<authResponse>(url, values);
     return data;
   }
 );
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (values: signupBodyType) => {
+  async (values: signupBody) => {
     const url = `${baseUrl}/register`;
-    const { data } = await axios.post<authResponseType>(url, values);
+    const { data } = await axios.post<authResponse>(url, values);
     return data;
   }
 );
 
 export const logout = createAsyncThunk("auth/logout", async (_, ThunkAPI) => {
   const url = `${baseUrl}/logout`;
-  const token = (ThunkAPI.getState() as { auth: initialStateType }).auth.token;
+  const { token } = (ThunkAPI.getState() as { auth: InitialState }).auth;
 
   await axios.post(url, null, {
     headers: { Authorization: `Bearer ${token}` },
@@ -73,35 +73,51 @@ export const logout = createAsyncThunk("auth/logout", async (_, ThunkAPI) => {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    setToken: (state, { payload }: PayloadAction<string>) => {
+      state.token = payload;
+    },
+    setUser: (state, { payload }) => {
+      state.user = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
+
       // login
       .addCase(login.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
         state.error = "";
+        localStorage.setItem("token", payload.token);
+        localStorage.setItem("user", JSON.stringify(payload.user));
       })
       .addCase(login.rejected, (state, { error }) => {
         state.token = "";
         state.user = null;
         state.error = error.message as string;
       })
+
       // signup
       .addCase(signup.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.token = payload.token;
         state.error = "";
+        localStorage.setItem("token", payload.token);
+        localStorage.setItem("user", JSON.stringify(payload.user));
       })
       .addCase(signup.rejected, (state, { error }) => {
         state.token = "";
         state.user = null;
         state.error = error.message as string;
       })
+
       // logout
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.token = "";
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
       })
       .addCase(logout.rejected, (_, { error }) => {
         console.log(error);
@@ -109,6 +125,6 @@ const authSlice = createSlice({
   },
 });
 
-// export const {} = authSlice.actions
+export const { setToken, setUser } = authSlice.actions;
 
 export default authSlice.reducer;

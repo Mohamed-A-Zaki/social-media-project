@@ -1,10 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
+import { createBrowserRouter } from "react-router-dom";
+import PersistLogin from "./helperComponents/PersistLogin";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <PersistLogin>
+        <App />
+      </PersistLogin>
+    ),
   },
 ]);
 

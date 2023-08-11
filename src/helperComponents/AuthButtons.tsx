@@ -1,46 +1,54 @@
-import { Button, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { Avatar, Button, Stack, Typography } from "@mui/material";
 
+import { logout } from "../store/authSlice";
 import { openLoginDrawer } from "../store/loginFormSlice";
 import { openSignupDrawer } from "../store/signupFormSlice";
-import { logout } from "../store/authSlice";
 
-/**
- * Renders the authentication buttons.
- *
- * @return {JSX.Element} The rendered authentication buttons.
- */
 const AuthButtons = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector((state) => state.auth);
+  const { token, user } = useAppSelector((state) => state.auth);
+
+  const handleLogin = () => {
+    dispatch(openLoginDrawer());
+  };
+
+  const handleSignup = () => {
+    dispatch(openSignupDrawer());
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const renderLoggedInButtons = () => (
+    <>
+      <Stack direction={"row"} spacing={1} alignItems={"center"}>
+        <Avatar sx={{ width: 30, height: 30 }} />
+        <Typography>{user?.username}</Typography>
+      </Stack>
+      
+      <Button variant="contained" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
+    </>
+  );
+
+  const renderLoggedOutButtons = () => (
+    <>
+      <Button variant="contained" color="success" onClick={handleLogin}>
+        Login
+      </Button>
+
+      <Button variant="contained" color="success" onClick={handleSignup}>
+        Signup
+      </Button>
+    </>
+  );
 
   return (
     <Stack direction="row" spacing={1} display={{ xs: "none", md: "flex" }}>
-      {!token ? (
-        <>
-          <Button
-            variant="contained"
-            onClick={() => dispatch(openLoginDrawer())}
-          >
-            Login
-          </Button>
-
-          <Button
-            variant="contained"
-            onClick={() => dispatch(openSignupDrawer())}
-          >
-            Signup
-          </Button>
-        </>
-      ) : (
-        <Button
-          variant="contained"
-          color="error"
-          onClick={() => dispatch(logout())}
-        >
-          Logout
-        </Button>
-      )}
+      {!token ? renderLoggedOutButtons() : renderLoggedInButtons()}
     </Stack>
   );
 };

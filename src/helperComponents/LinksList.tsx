@@ -10,6 +10,8 @@ const LinksList = (): JSX.Element => {
   return (
     <Stack
       direction="row"
+      flexGrow={1}
+      mx={3}
       spacing={2}
       fontSize="1.2rem"
       display={{ xs: "none", md: "flex" }}

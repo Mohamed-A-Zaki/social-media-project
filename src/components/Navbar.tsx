@@ -14,7 +14,7 @@ const Navbar = (): JSX.Element => {
   return (
     <AppBar position="static" sx={{ bgcolor: "#fff", color: "#000" }}>
       <Container fixed>
-        <Toolbar sx={{ justifyContent: "space-between" }}>
+        <Toolbar>
           <>
             <Brand />
             <LinksList />
