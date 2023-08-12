@@ -3,13 +3,15 @@ import loginFormReduer from "./loginFormSlice";
 import authReducer from "./authSlice";
 import signupFormReducer from "./signupFormSlice";
 import addPostFormReducer from "./addPostFormSlice";
+import postsReducer from "./postsSlice";
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
     loginForm: loginFormReduer,
     signupFrorm: signupFormReducer,
-    addPostForm : addPostFormReducer
+    addPostForm: addPostFormReducer,
+    posts: postsReducer,
   },
 });
 

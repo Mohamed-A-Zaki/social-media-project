@@ -1,9 +1,14 @@
 import { Box } from "@mui/material";
-import { useAppDispatch } from "../store/hooks";
 import { openAddPostForm } from "../store/addPostFormSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const AddPostButton = () => {
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.auth);
+
+  if (!token) {
+    return null;
+  }
 
   return (
     <Box

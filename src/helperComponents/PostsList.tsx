@@ -1,31 +1,41 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Box, Container } from "@mui/material";
+import { useEffect } from "react";
+import { Alert, Box, Container } from "@mui/material";
 
 import Post from "../components/Post/Post";
-import PostType from "../types/Post.type";
+import { getPosts } from "../store/postsSlice";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 
-/**
- * Renders a list of posts from the API.
- *
- * @return {JSX.Element} The JSX element representing the posts list.
- */
 const PostsList = (): JSX.Element => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const dispatch = useAppDispatch();
+  const { posts, loading, error } = useAppSelector((state) => state.posts);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const url = "https://tarmeezacademy.com/api/v1/posts";
-        const response = await axios.get(url);
-        setPosts(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    dispatch(getPosts());
+  }, [dispatch]);
 
-    fetchPosts();
-  }, []);
+  if (loading) {
+    return (
+      <Container fixed sx={{ my: 2, textAlign: "center", fontSize: 25 }}>
+        Loading...
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container fixed sx={{ my: 2 }}>
+        <Alert severity="error">{error}</Alert>
+      </Container>
+    );
+  }
+
+  if (posts.length === 0) {
+    return (
+      <Container fixed sx={{ my: 2 }}>
+        <Alert severity="info">There is no posts...</Alert>
+      </Container>
+    );
+  }
 
   return (
     <Box component={Container} fixed>

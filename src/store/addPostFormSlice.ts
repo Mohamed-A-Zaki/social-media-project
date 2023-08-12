@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { createPost } from "./postsSlice";
 
 const initialState = {
   open: false,
@@ -14,6 +15,11 @@ const addPostFormSlice = createSlice({
     closeAddPostForm: (state) => {
       state.open = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(createPost.fulfilled, (state) => {
+      state.open = false;
+    });
   },
 });
 

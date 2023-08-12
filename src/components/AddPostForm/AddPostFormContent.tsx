@@ -1,12 +1,21 @@
+import { useRef } from "react";
 import { DialogTitle, DialogContent } from "@mui/material";
 
 import * as yup from "yup";
 import { Formik, Form } from "formik";
 
-import FormTextField from "../../helperComponents/FormTextField";
 import AddPostFormActions from "./AddPostFormActions";
+import ErrorMessage from "../../helperComponents/ErrorMessage";
+import FormTextField from "../../helperComponents/FormTextField";
+
+import { createPost } from "../../store/postsSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const AddPostFormContent = () => {
+  const dispatch = useAppDispatch();
+  const { error } = useAppSelector((state) => state.posts);
+  const image_file = useRef<HTMLInputElement | null>(null);
+
   return (
     <Formik
       initialValues={{
@@ -20,7 +29,13 @@ const AddPostFormContent = () => {
         image: yup.string().required(),
       })}
       onSubmit={async (values) => {
-        console.log(values);
+        const formData = new FormData();
+
+        formData.append("title", values.title);
+        formData.append("body", values.body);
+        formData.append("image", image_file.current?.files![0] as File);
+
+        await dispatch(createPost(formData));
       }}
     >
       {({ errors, touched, isSubmitting, getFieldProps }) => (
@@ -30,7 +45,7 @@ const AddPostFormContent = () => {
           </DialogTitle>
 
           <DialogContent>
-            {/* <ErrorMessage errorMessage={error} /> */}
+            <ErrorMessage errorMessage={error} />
 
             <FormTextField
               type="text"
@@ -60,6 +75,7 @@ const AddPostFormContent = () => {
               touched={touched.image}
               getFieldProps={getFieldProps}
               InputLabelProps={{ shrink: true }}
+              inputRef={image_file}
             />
           </DialogContent>
 

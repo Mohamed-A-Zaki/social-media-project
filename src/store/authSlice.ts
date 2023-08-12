@@ -59,9 +59,9 @@ export const signup = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk("auth/logout", async (_, ThunkAPI) => {
+export const logout = createAsyncThunk("auth/logout", async () => {
   const url = `${baseUrl}/logout`;
-  const { token } = (ThunkAPI.getState() as { auth: InitialState }).auth;
+  const token = localStorage.getItem("token");
 
   await axios.post(url, null, {
     headers: { Authorization: `Bearer ${token}` },
