@@ -65,6 +65,7 @@ const postsSlice = createSlice({
 
       // create new post
       .addCase(createPost.fulfilled, (state, { payload }) => {
+        state.error = "";
         state.posts.unshift(payload);
       })
       .addCase(createPost.rejected, (state, { error }) => {
