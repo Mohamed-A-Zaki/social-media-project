@@ -1,10 +1,10 @@
 import App from "./App";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import PersistLogin from "./helperComponents/PersistLogin";
 import PostDetails from "./components/PostDetails/PostDetails";
 import PostsList from "./helperComponents/PostsList";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: (

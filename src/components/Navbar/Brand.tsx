@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 /**
  * Renders the brand component.
@@ -7,7 +8,7 @@ import { Typography } from "@mui/material";
  */
 const Brand = (): JSX.Element => {
   return (
-    <Typography variant="h4" component="h1" color={"primary.main"}>
+    <Typography component={Link} to="/" variant="h4" color={"primary.main"}>
       Brand
     </Typography>
   );
