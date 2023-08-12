@@ -1,6 +1,6 @@
-import { useAppDispatch } from "../store/hooks";
-import { closeLoginDrawer } from "../store/loginFormSlice";
 import { Button, DialogActions } from "@mui/material";
+import { useAppDispatch } from "../../../store/hooks";
+import { closeLoginDrawer } from "../../../store/loginFormSlice";
 
 type LoginFormActionsProps = {
   disabled: boolean;

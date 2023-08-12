@@ -1,9 +1,9 @@
 import { AppBar, Toolbar, Container } from "@mui/material";
 
-import Brand from "../helperComponents/Brand";
-import BarIcon from "../helperComponents/BarIcon";
-import LinksList from "../helperComponents/LinksList";
-import AuthButtons from "../helperComponents/AuthButtons";
+import Brand from "./Brand";
+import BarIcon from "./BarIcon";
+import LinksList from "./LinksList";
+import AuthButtons from "./AuthButtons";
 
 /**
  * Renders the Navbar component.

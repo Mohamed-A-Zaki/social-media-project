@@ -1,7 +1,7 @@
 import { Dialog } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { closeSignupDrawer } from "../store/signupFormSlice";
-import SignupFormContent from "../helperComponents/SignupFormContent";
+import SignupFormContent from "./SignupFormContent";
+import { closeSignupDrawer } from "../../../store/signupFormSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();

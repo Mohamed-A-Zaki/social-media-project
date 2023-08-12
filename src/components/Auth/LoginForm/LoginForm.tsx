@@ -1,8 +1,7 @@
 import { Dialog } from "@mui/material";
-import LoginFormContent from "../helperComponents/LoginFormContent ";
-
-import { closeLoginDrawer } from "../store/loginFormSlice";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import LoginFormContent from "./LoginFormContent ";
+import { closeLoginDrawer } from "../../../store/loginFormSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 /**
  * Renders the login form component.

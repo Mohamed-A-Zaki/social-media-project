@@ -1,12 +1,12 @@
-import { Button, DialogActions } from "@mui/material";
-import { useAppDispatch } from "../store/hooks";
-import { closeSignupDrawer } from "../store/signupFormSlice";
+import { useAppDispatch } from "../../store/hooks";
+import { DialogActions, Button } from "@mui/material";
+import { closeAddPostForm } from "../../store/addPostFormSlice";
 
-type SignupFormActionsProps = {
+type AddPostFormActionsProps = {
   disabled: boolean;
 };
 
-const SignupFormActions = ({ disabled }: SignupFormActionsProps) => {
+const AddPostFormActions = ({ disabled }: AddPostFormActionsProps) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -14,7 +14,7 @@ const SignupFormActions = ({ disabled }: SignupFormActionsProps) => {
       <Button
         color="error"
         variant="contained"
-        onClick={() => dispatch(closeSignupDrawer())}
+        onClick={() => dispatch(closeAddPostForm())}
       >
         Cancel
       </Button>
@@ -25,10 +25,10 @@ const SignupFormActions = ({ disabled }: SignupFormActionsProps) => {
         variant="contained"
         disabled={disabled}
       >
-        Regidter
+        Add Post
       </Button>
     </DialogActions>
   );
 };
 
-export default SignupFormActions;
+export default AddPostFormActions;

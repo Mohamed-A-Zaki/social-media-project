@@ -1,9 +1,9 @@
 import { Card } from "@mui/material";
-import PostType from "../types/Post.type";
+import PostType from "../../types/Post.type";
 
+import PostHeader from "./PostHeader";
+import PostContent from "./PostContent";
 import PostFooter from "./PostFooter";
-import PostHeader from "../helperComponents/PostHeader";
-import PostContent from "../helperComponents/PostContent";
 
 /**
  * Renders a Post component.

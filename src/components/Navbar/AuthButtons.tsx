@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 
-import { logout } from "../store/authSlice";
-import { openLoginDrawer } from "../store/loginFormSlice";
-import { openSignupDrawer } from "../store/signupFormSlice";
+import { logout } from "../../store/authSlice";
+import { openLoginDrawer } from "../../store/loginFormSlice";
+import { openSignupDrawer } from "../../store/signupFormSlice";
 
 const AuthButtons = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ const AuthButtons = (): JSX.Element => {
         <Avatar sx={{ width: 30, height: 30 }} />
         <Typography>{user?.username}</Typography>
       </Stack>
-      
+
       <Button variant="contained" color="error" onClick={handleLogout}>
         Logout
       </Button>

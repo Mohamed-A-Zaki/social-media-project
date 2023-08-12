@@ -1,30 +1,29 @@
-import { TextField } from "@mui/material";
 import { FieldConfig, FieldInputProps } from "formik";
+import { TextField, TextFieldProps } from "@mui/material";
 
-interface LoginFormTextFieldProps {
-  label: string;
+type FormTextFieldProps = {
   name: string;
+  label: string;
   error: string | undefined;
   touched: boolean | undefined;
   type: React.HTMLInputTypeAttribute | undefined;
   getFieldProps: <V>(props: string | FieldConfig<V>) => FieldInputProps<V>;
-}
+} & Omit<TextFieldProps, "variant" | "error">;
 
-const LoginFormTextField = (props: LoginFormTextFieldProps): JSX.Element => {
-  const { label, name, error, touched, type, getFieldProps } = props;
+const FormTextField = (props: FormTextFieldProps): JSX.Element => {
+  const { name, error, touched, getFieldProps, ...rest } = props;
 
   return (
     <TextField
+      {...rest}
       required
-      type={type}
-      label={label}
       variant="outlined"
       sx={{ width: 1, mt: 2 }}
       {...getFieldProps(name)}
-      error={touched && error ? true : false}
+      error={!!(touched && error)}
       helperText={touched && error ? error : ""}
     />
   );
 };
 
-export default LoginFormTextField;
+export default FormTextField;

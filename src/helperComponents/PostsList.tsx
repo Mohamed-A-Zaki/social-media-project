@@ -1,8 +1,9 @@
 import axios from "axios";
-import Post from "./Post";
-import PostType from "../types/Post.type";
 import { useEffect, useState } from "react";
 import { Box, Container } from "@mui/material";
+
+import Post from "../components/Post/Post";
+import PostType from "../types/Post.type";
 
 /**
  * Renders a list of posts from the API.
