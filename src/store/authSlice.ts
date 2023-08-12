@@ -18,18 +18,12 @@ type loginBody = {
   password: string;
 };
 
-type signupBody = {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-};
-
 type UserType = {
   username: string;
   name: string;
   email: string;
   id: number;
+  profile_image : string;
   comments_count: number;
   posts_count: number;
 };
@@ -52,7 +46,7 @@ export const login = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   "auth/signup",
-  async (values: signupBody) => {
+  async (values: FormData) => {
     const url = `${baseUrl}/register`;
     const { data } = await axios.post<authResponse>(url, values);
     return data;

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { DialogTitle, DialogContent } from "@mui/material";
 
 import * as yup from "yup";
@@ -19,22 +20,34 @@ const SignupFormContent = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.auth);
 
+  const image_file = useRef<HTMLInputElement | null>(null);
+
   return (
     <Formik
       initialValues={{
         name: "Mohamed",
-        username: "Mohamed_123",
-        email: "example@example.com",
+        username: "Mohamed_1234",
+        email: "example-1@example-1.com",
         password: "123456",
+        image: "",
       }}
       validationSchema={yup.object({
         name: yup.string().required(),
         username: yup.string().required(),
         email: yup.string().email().required(),
         password: yup.string().required().min(6),
+        image: yup.string().required(),
       })}
       onSubmit={async (values) => {
-        await dispatch(signup(values));
+        const formData = new FormData();
+
+        formData.append("name", values.name);
+        formData.append("username", values.username);
+        formData.append("email", values.email);
+        formData.append("password", values.password);
+        formData.append("image", image_file.current?.files![0] as File);
+
+        await dispatch(signup(formData));
       }}
     >
       {({ errors, touched, isSubmitting, getFieldProps }) => (
@@ -80,6 +93,17 @@ const SignupFormContent = (): JSX.Element => {
               error={errors.password}
               touched={touched.password}
               getFieldProps={getFieldProps}
+            />
+
+            <FormTextField
+              type="file"
+              name="image"
+              label="Image"
+              error={errors.image}
+              touched={touched.image}
+              getFieldProps={getFieldProps}
+              InputLabelProps={{ shrink: true }}
+              inputRef={image_file}
             />
           </DialogContent>
 

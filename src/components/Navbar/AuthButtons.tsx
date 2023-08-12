@@ -24,7 +24,7 @@ const AuthButtons = (): JSX.Element => {
   const renderLoggedInButtons = () => (
     <>
       <Stack direction={"row"} spacing={1} alignItems={"center"}>
-        <Avatar sx={{ width: 30, height: 30 }} />
+        <Avatar src={user?.profile_image} sx={{ width: 30, height: 30 }} />
         <Typography>{user?.username}</Typography>
       </Stack>
 

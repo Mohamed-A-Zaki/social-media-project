@@ -1,6 +1,8 @@
 import App from "./App";
 import { createBrowserRouter } from "react-router-dom";
 import PersistLogin from "./helperComponents/PersistLogin";
+import PostDetails from "./components/PostDetails/PostDetails";
+import PostsList from "./helperComponents/PostsList";
 
 const router = createBrowserRouter([
   {
@@ -10,6 +12,16 @@ const router = createBrowserRouter([
         <App />
       </PersistLogin>
     ),
+    children: [
+      {
+        index: true,
+        element: <PostsList />,
+      },
+      {
+        path: "/post/:id",
+        element: <PostDetails />,
+      },
+    ],
   },
 ]);
 
