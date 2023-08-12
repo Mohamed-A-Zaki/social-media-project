@@ -5,7 +5,7 @@ import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostFooter from "./PostFooter";
 
-import PostType from "../../types/Post.type";
+import { PostType } from "../../types/Post.type";
 
 /**
  * Renders a Post component.
@@ -23,7 +23,7 @@ const Post = (post: PostType): JSX.Element => {
       onClick={() => navigate(`/post/${id}`)}
       sx={{ boxShadow: 10, borderRadius: 2, my: 3, cursor: "pointer" }}
     >
-      <PostHeader created_at={created_at} username={author.username} />
+      <PostHeader created_at={created_at} author={author} />
       <PostContent image={image} body={body} />
       <PostFooter commentsCount={comments_count} />
     </Card>

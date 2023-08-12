@@ -1,21 +1,27 @@
 import axios from "axios";
-import PostType from "../types/Post.type";
+import { PostType } from "../types/Post.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 type InitialState = {
   posts: PostType[];
+  post: PostType;
   loading: boolean;
   error: string;
 };
 
 const initialState: InitialState = {
   posts: [],
+  post: {} as PostType,
   loading: false,
   error: "",
 };
 
 type GetPostsResponse = {
   data: PostType[];
+};
+
+type GetPostResponse = {
+  data: PostType;
 };
 
 type CreatePotsResponse = {
@@ -27,6 +33,12 @@ const baseUrl = "https://tarmeezacademy.com/api/v1";
 export const getPosts = createAsyncThunk("posts/getPosts", async () => {
   const url = `${baseUrl}/posts`;
   const { data } = await axios.get<GetPostsResponse>(url);
+  return data.data;
+});
+
+export const getPost = createAsyncThunk("posts/getPost", async (id: number) => {
+  const url = `${baseUrl}/posts/${id}`;
+  const { data } = await axios.get<GetPostResponse>(url);
   return data.data;
 });
 
@@ -55,10 +67,25 @@ const postsSlice = createSlice({
         state.loading = true;
       })
       .addCase(getPosts.fulfilled, (state, { payload }) => {
+        state.error = "";
         state.loading = false;
         state.posts = payload;
       })
       .addCase(getPosts.rejected, (state, { error }) => {
+        state.loading = false;
+        state.error = error.message as string;
+      })
+
+      // get post
+      .addCase(getPost.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getPost.fulfilled, (state, { payload }) => {
+        state.error = "";
+        state.loading = false;
+        state.post = payload;
+      })
+      .addCase(getPost.rejected, (state, { error }) => {
         state.loading = false;
         state.error = error.message as string;
       })

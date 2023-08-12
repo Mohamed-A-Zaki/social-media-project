@@ -1,24 +1,30 @@
 import { Avatar, CardHeader } from "@mui/material";
+import { AuthorType } from "../../types/Post.type";
 
 type Props = {
-  username: string;
   created_at: string;
+  author: AuthorType;
 };
 
-/**
- * Renders the header component for a post.
- * @param {Props} username - The username of the post author.
- * @return {JSX.Element} The rendered header component.
- */
-const PostHeader = ({ username, created_at }: Props): JSX.Element => {
+const PostHeader = ({ created_at, author }: Props): JSX.Element => {
+  const renderAvatar = () => {
+    return (
+      <Avatar
+        sx={{ bgcolor: "#00f" }}
+        src={
+          typeof author.profile_image === "string"
+            ? author.profile_image
+            : undefined
+        }
+        aria-label="profile_image"
+      />
+    );
+  };
+
   return (
     <CardHeader
-      avatar={
-        <Avatar sx={{ bgcolor: "#00f" }} aria-label="recipe">
-          {username[0]}
-        </Avatar>
-      }
-      title={username}
+      avatar={renderAvatar()}
+      title={author.username}
       subheader={created_at}
       sx={{ borderBottom: 1, borderColor: "#ccc" }}
     />
