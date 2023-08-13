@@ -1,4 +1,4 @@
-import { CommentType } from "../../types/Post.type";
+import CommentType from "../../types/comment.type";
 import { Avatar, Typography, Stack } from "@mui/material";
 
 const Comment = ({ author, body }: CommentType) => {

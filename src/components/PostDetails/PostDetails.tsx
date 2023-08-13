@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Alert, Box, Container, Typography } from "@mui/material";
+import { Alert, Box, Container } from "@mui/material";
 
 import Post from "../Post/Post";
+import AddComment from "./AddComment";
+import CommentsList from "./CommentsList";
+
 import { getPost } from "../../store/postsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import CommentsList from "./CommentsList";
 
 const PostDetails = () => {
   const { id } = useParams();
 
   const dispatch = useAppDispatch();
   const { post, error, loading } = useAppSelector((state) => state.posts);
+  const { token } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getPost(Number(id)));
@@ -41,9 +44,7 @@ const PostDetails = () => {
     <Box component={Container} fixed>
       <Post {...post} />
 
-      <Typography variant="h6" fontStyle={"italic"}>
-        Comments
-      </Typography>
+      {token && <AddComment post_id={Number(id)} />}
 
       <CommentsList comments={post.comments} />
     </Box>

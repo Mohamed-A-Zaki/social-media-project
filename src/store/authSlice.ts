@@ -1,6 +1,8 @@
 import axios from "axios";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+import UserType from "../types/user.type";
+
 type InitialState = {
   user: UserType | null;
   token: string;
@@ -16,16 +18,6 @@ const initialState: InitialState = {
 type loginBody = {
   username: string;
   password: string;
-};
-
-type UserType = {
-  username: string;
-  name: string;
-  email: string;
-  id: number;
-  profile_image : string;
-  comments_count: number;
-  posts_count: number;
 };
 
 type authResponse = {

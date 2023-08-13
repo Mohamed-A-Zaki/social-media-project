@@ -1,12 +1,15 @@
 import axios from "axios";
-import { PostType } from "../types/Post.type";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { PostType } from "../types/Post.type";
+import CommentType from "../types/comment.type";
 
 type InitialState = {
   posts: PostType[];
   post: PostType;
   loading: boolean;
   error: string;
+  commentError: string;
 };
 
 const initialState: InitialState = {
@@ -14,6 +17,7 @@ const initialState: InitialState = {
   post: {} as PostType,
   loading: false,
   error: "",
+  commentError: "",
 };
 
 type GetPostsResponse = {
@@ -28,16 +32,27 @@ type CreatePotsResponse = {
   data: PostType;
 };
 
-const baseUrl = "https://tarmeezacademy.com/api/v1";
+type AddCommentResponse = {
+  data: CommentType;
+};
+
+type AddCommentBody = {
+  post_id: number;
+  values: {
+    body: string;
+  };
+};
+
+const baseUrl = "https://tarmeezacademy.com/api/v1/posts";
 
 export const getPosts = createAsyncThunk("posts/getPosts", async () => {
-  const url = `${baseUrl}/posts`;
+  const url = baseUrl;
   const { data } = await axios.get<GetPostsResponse>(url);
   return data.data;
 });
 
 export const getPost = createAsyncThunk("posts/getPost", async (id: number) => {
-  const url = `${baseUrl}/posts/${id}`;
+  const url = `${baseUrl}/${id}`;
   const { data } = await axios.get<GetPostResponse>(url);
   return data.data;
 });
@@ -45,10 +60,24 @@ export const getPost = createAsyncThunk("posts/getPost", async (id: number) => {
 export const createPost = createAsyncThunk(
   "posts/createPost",
   async (formData: FormData) => {
-    const url = `${baseUrl}/posts`;
+    const url = baseUrl;
     const token = localStorage.getItem("token");
 
     const { data } = await axios.post<CreatePotsResponse>(url, formData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return data.data;
+  }
+);
+
+export const addCommnet = createAsyncThunk(
+  "posts/addComment",
+  async ({ post_id, values }: AddCommentBody) => {
+    const url = `${baseUrl}/${post_id}/comments`;
+    const token = localStorage.getItem("token");
+
+    const { data } = await axios.post<AddCommentResponse>(url, values, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -97,10 +126,16 @@ const postsSlice = createSlice({
       })
       .addCase(createPost.rejected, (state, { error }) => {
         state.error = error.message as string;
+      })
+
+      // add comment
+      .addCase(addCommnet.fulfilled, (state, { payload }) => {
+        state.post.comments.push(payload);
+      })
+      .addCase(addCommnet.rejected, (state, { error }) => {
+        state.commentError = error.message as string;
       });
   },
 });
-
-// export const {} = postsSlice.actions
 
 export default postsSlice.reducer;

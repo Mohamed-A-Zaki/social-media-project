@@ -1,5 +1,5 @@
+import AuthorType from "../../types/author.type";
 import { Avatar, CardHeader } from "@mui/material";
-import { AuthorType } from "../../types/Post.type";
 
 type Props = {
   created_at: string;

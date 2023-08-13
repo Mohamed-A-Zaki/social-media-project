@@ -1,22 +1,6 @@
-export type AuthorType = {
-  id: number;
-  username: string;
-  name: string;
-  email: string;
-  profile_image: string;
-};
-
-export type TagType = {
-  name: string;
-  arabic_name: string;
-  description: string;
-};
-
-export type CommentType = {
-  id: number;
-  body: string;
-  author: AuthorType;
-};
+import TagType from "./tag.type";
+import AuthorType from "./author.type";
+import CommentType from "./comment.type";
 
 export type PostType = {
   id: number;
