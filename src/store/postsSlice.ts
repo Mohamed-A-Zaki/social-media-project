@@ -10,6 +10,7 @@ type InitialState = {
   loading: boolean;
   error: string;
   commentError: string;
+  editPostError: string;
 };
 
 const initialState: InitialState = {
@@ -18,6 +19,7 @@ const initialState: InitialState = {
   loading: false,
   error: "",
   commentError: "",
+  editPostError: "",
 };
 
 type GetPostsResponse = {
@@ -28,15 +30,27 @@ type GetPostResponse = {
   data: PostType;
 };
 
-type CreatePotsResponse = {
+type CreatePostResponse = {
   data: PostType;
+};
+
+type EditPostResponse = {
+  data: PostType;
+};
+
+type EditPostParams = {
+  id: number;
+  values: {
+    title: string;
+    body: string;
+  };
 };
 
 type AddCommentResponse = {
   data: CommentType;
 };
 
-type AddCommentBody = {
+type AddCommentParams = {
   post_id: number;
   values: {
     body: string;
@@ -63,7 +77,7 @@ export const createPost = createAsyncThunk(
     const url = baseUrl;
     const token = localStorage.getItem("token");
 
-    const { data } = await axios.post<CreatePotsResponse>(url, formData, {
+    const { data } = await axios.post<CreatePostResponse>(url, formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -73,11 +87,25 @@ export const createPost = createAsyncThunk(
 
 export const addCommnet = createAsyncThunk(
   "posts/addComment",
-  async ({ post_id, values }: AddCommentBody) => {
+  async ({ post_id, values }: AddCommentParams) => {
     const url = `${baseUrl}/${post_id}/comments`;
     const token = localStorage.getItem("token");
 
     const { data } = await axios.post<AddCommentResponse>(url, values, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return data.data;
+  }
+);
+
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async ({ id, values }: EditPostParams) => {
+    const url = `${baseUrl}/jh${id}`;
+    const token = localStorage.getItem("token");
+
+    const { data } = await axios.put<EditPostResponse>(url, values, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -126,6 +154,21 @@ const postsSlice = createSlice({
       })
       .addCase(createPost.rejected, (state, { error }) => {
         state.error = error.message as string;
+      })
+
+      // edit post
+      .addCase(editPost.fulfilled, (state, { payload }) => {
+        state.error = "";
+        state.post = { ...state.post, ...payload };
+
+        for (let i = 0; i < state.posts.length; i++) {
+          if (state.posts[i].id === payload.id) {
+            state.posts[i] = { ...state.posts[i], ...payload };
+          }
+        }
+      })
+      .addCase(editPost.rejected, (state, { error }) => {
+        state.editPostError = error.message as string;
       })
 
       // add comment

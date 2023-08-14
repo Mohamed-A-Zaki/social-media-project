@@ -4,6 +4,7 @@ import authReducer from "./authSlice";
 import signupFormReducer from "./signupFormSlice";
 import addPostFormReducer from "./addPostFormSlice";
 import postsReducer from "./postsSlice";
+import editPostFromReducer from "./editPostFromSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     loginForm: loginFormReduer,
     signupFrorm: signupFormReducer,
     addPostForm: addPostFormReducer,
+    editPostForm: editPostFromReducer,
     posts: postsReducer,
   },
 });

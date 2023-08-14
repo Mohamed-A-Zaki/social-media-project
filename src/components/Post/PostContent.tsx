@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { CardContent, CardMedia, Typography } from "@mui/material";
 
 interface PostContentProps {
+  id: number;
   image: string;
   body: string;
 }
@@ -11,9 +13,14 @@ interface PostContentProps {
  * @param {PostContentProps} props - The props object containing the image and body of the post.
  * @return {JSX.Element} The rendered post content.
  */
-const PostContent = ({ image, body }: PostContentProps): JSX.Element => {
+const PostContent = ({ image, body, id }: PostContentProps): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
-    <CardContent sx={{ borderBottom: 1, borderColor: "#ccc" }}>
+    <CardContent
+      onClick={() => navigate(`/post/${id}`)}
+      sx={{ borderBottom: 1, borderColor: "#ccc", cursor: "pointer" }}
+    >
       <CardMedia
         component={"img"}
         height={300}

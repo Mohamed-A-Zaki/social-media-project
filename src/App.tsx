@@ -6,6 +6,7 @@ import AddPostForm from "./components/AddPostForm/AddPostForm";
 import Navbar from "./components/Navbar/Navbar";
 import LoginForm from "./components/Auth/LoginForm/LoginForm";
 import SignupForm from "./components/Auth/SignupForm/SignupForm";
+import EditPostForm from "./components/EditPostForm/EditPostForm";
 
 const App = (): JSX.Element => {
   return (
@@ -18,6 +19,7 @@ const App = (): JSX.Element => {
       <SignupForm />
       <AddPostForm />
       <AddPostButton />
+      <EditPostForm />
     </>
   );
 };

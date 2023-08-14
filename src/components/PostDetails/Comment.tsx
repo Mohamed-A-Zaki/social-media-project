@@ -17,7 +17,7 @@ const Comment = ({ author, body }: CommentType) => {
 
       <Stack direction="column" bgcolor="#fff" borderRadius={2} width={1} p={2}>
         <Typography variant="subtitle2" fontSize={17}>
-          {`${username} - ${name}`}
+          {`${username} - ( ${name} )`}
         </Typography>
 
         <Typography variant="body2" color={"text.secondary"}>
