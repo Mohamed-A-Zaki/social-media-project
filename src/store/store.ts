@@ -6,6 +6,7 @@ import addPostFormReducer from "./addPostFormSlice";
 import postsReducer from "./postsSlice";
 import editPostFromReducer from "./editPostFromSlice";
 import confirmDialogReducer from "./confirmDialogSlice";
+import profileReducer from "./profileSlice";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     editPostForm: editPostFromReducer,
     posts: postsReducer,
     confirmDialog: confirmDialogReducer,
+    profile: profileReducer,
   },
 });
 

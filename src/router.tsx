@@ -23,7 +23,7 @@ const router = createHashRouter([
         element: <PostDetails />,
       },
       {
-        path: "/profile",
+        path: "/profile/:userId",
         element: <Profile />,
       },
     ],

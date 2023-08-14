@@ -1,10 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Avatar, Button, Stack, Typography } from "@mui/material";
 
 import { logout } from "../../store/authSlice";
 import { openLoginDrawer } from "../../store/loginFormSlice";
 import { openSignupDrawer } from "../../store/signupFormSlice";
-import { useNavigate } from "react-router-dom";
 
 const AuthButtons = (): JSX.Element => {
   const navigate = useNavigate();
@@ -29,10 +30,17 @@ const AuthButtons = (): JSX.Element => {
         direction={"row"}
         spacing={1}
         alignItems={"center"}
-        sx={{ cursor : "pointer" }}
-        onClick={() => navigate("/profile")}
+        sx={{ cursor: "pointer" }}
+        onClick={() => navigate(`/profile/${user?.id}`)}
       >
-        <Avatar src={user?.profile_image} sx={{ width: 30, height: 30 }} />
+        <Avatar
+          src={
+            typeof user?.profile_image === "string"
+              ? user?.profile_image
+              : undefined
+          }
+          sx={{ width: 30, height: 30 }}
+        />
         <Typography>{user?.username}</Typography>
       </Stack>
 

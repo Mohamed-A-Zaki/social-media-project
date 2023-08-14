@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { PostType } from "../types/Post.type";
+import PostType from "../types/Post.type";
 import CommentType from "../types/comment.type";
 
 type InitialState = {

@@ -28,9 +28,10 @@ const PostHeader = ({ postId, created_at, author }: Props): JSX.Element => {
   const renderAvatar = () => {
     return (
       <Avatar
-        sx={{ bgcolor: "#00f" }}
+        sx={{ bgcolor: "#00f", cursor : "pointer" }}
         aria-label="profile_image"
         src={typeof profile_image === "string" ? profile_image : undefined}
+        onClick={() => navigate(`/profile/${id}`)}
       />
     );
   };

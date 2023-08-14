@@ -2,7 +2,7 @@ import TagType from "./tag.type";
 import AuthorType from "./author.type";
 import CommentType from "./comment.type";
 
-export type PostType = {
+type PostType = {
   id: number;
   title: string;
   body: string;
@@ -13,3 +13,5 @@ export type PostType = {
   comments_count: number;
   comments: CommentType[];
 };
+
+export default PostType;

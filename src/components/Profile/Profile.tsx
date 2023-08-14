@@ -1,14 +1,36 @@
+import { useParams } from "react-router-dom";
 import { Box, Container, Typography } from "@mui/material";
+
+import UserPosts from "./UserPosts";
 import ProfileHeader from "./ProfileHeader";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useEffect } from "react";
+import { getUser, getUserPosts } from "../../store/profileSlice";
 
 const Profile = () => {
+  const { userId } = useParams();
+
+  const dispatch = useAppDispatch();
+  const { posts, user } = useAppSelector((state) => state.profile);
+
+  useEffect(() => {
+    dispatch(getUser(Number(userId)));
+    dispatch(getUserPosts(Number(userId)));
+  }, [dispatch, userId]);
+
   return (
     <Box component={Container} fixed>
       <Typography variant="h4" mt={3}>
         Profile
       </Typography>
 
-      <ProfileHeader />
+      <ProfileHeader user={user} />
+
+      <Typography variant="h4" mt={3}>
+        Posts
+      </Typography>
+
+      <UserPosts posts={posts} />
     </Box>
   );
 };
