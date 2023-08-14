@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import LoginForm from "./components/Auth/LoginForm/LoginForm";
 import SignupForm from "./components/Auth/SignupForm/SignupForm";
 import EditPostForm from "./components/EditPostForm/EditPostForm";
+import ConfirmDialog from "./helperComponents/ConfirmDialog";
 
 const App = (): JSX.Element => {
   return (
@@ -20,6 +21,7 @@ const App = (): JSX.Element => {
       <AddPostForm />
       <AddPostButton />
       <EditPostForm />
+      <ConfirmDialog />
     </>
   );
 };

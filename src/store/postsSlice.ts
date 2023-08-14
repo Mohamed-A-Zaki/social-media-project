@@ -11,6 +11,7 @@ type InitialState = {
   error: string;
   commentError: string;
   editPostError: string;
+  deletePostError: string;
 };
 
 const initialState: InitialState = {
@@ -20,6 +21,7 @@ const initialState: InitialState = {
   error: "",
   commentError: "",
   editPostError: "",
+  deletePostError: "",
 };
 
 type GetPostsResponse = {
@@ -110,6 +112,20 @@ export const editPost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (id: number) => {
+    const url = `${baseUrl}/${id}`;
+    const token = localStorage.getItem("token");
+
+    await axios.delete(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return id;
+  }
+);
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -160,6 +176,15 @@ const postsSlice = createSlice({
       })
       .addCase(editPost.rejected, (state, { error }) => {
         state.editPostError = error.message as string;
+      })
+
+      // delete post
+      .addCase(deletePost.fulfilled, (state, { payload }) => {
+        state.deletePostError = "";
+        state.posts = state.posts.filter((post) => post.id !== payload);
+      })
+      .addCase(deletePost.rejected, (state, { error }) => {
+        state.deletePostError = error.message as string;
       })
 
       // add comment

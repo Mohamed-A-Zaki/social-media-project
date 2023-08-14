@@ -5,6 +5,7 @@ interface PostContentProps {
   id: number;
   image: string;
   body: string;
+  title: string;
 }
 
 /**
@@ -13,7 +14,9 @@ interface PostContentProps {
  * @param {PostContentProps} props - The props object containing the image and body of the post.
  * @return {JSX.Element} The rendered post content.
  */
-const PostContent = ({ image, body, id }: PostContentProps): JSX.Element => {
+const PostContent = (props: PostContentProps): JSX.Element => {
+  const { id, image, body, title } = props;
+
   const navigate = useNavigate();
 
   return (
@@ -31,6 +34,10 @@ const PostContent = ({ image, body, id }: PostContentProps): JSX.Element => {
         }
         sx={{ borderRadius: 2, border: 1, borderColor: "#ccc" }}
       />
+
+      <Typography mt={2} variant="h6" color={"success.main"}>
+        {title}
+      </Typography>
 
       <Typography mt={2}>{body}</Typography>
     </CardContent>
