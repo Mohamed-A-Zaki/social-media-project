@@ -3,6 +3,7 @@ import { createHashRouter } from "react-router-dom";
 import PersistLogin from "./helperComponents/PersistLogin";
 import PostDetails from "./components/PostDetails/PostDetails";
 import PostsList from "./helperComponents/PostsList";
+import Profile from "./components/Profile/Profile";
 
 const router = createHashRouter([
   {
@@ -20,6 +21,10 @@ const router = createHashRouter([
       {
         path: "/post/:id",
         element: <PostDetails />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
