@@ -1,4 +1,4 @@
-// import { useRef } from "react";
+import { useRef } from "react";
 import { DialogTitle, DialogContent } from "@mui/material";
 
 import * as yup from "yup";
@@ -14,22 +14,33 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 const EditPostFormContent = () => {
   const dispatch = useAppDispatch();
   const { editPostError, post } = useAppSelector((state) => state.posts);
-  // const image_file = useRef<HTMLInputElement | null>(null);
+  const image_file = useRef<HTMLInputElement | null>(null);
 
   return (
     <Formik
       initialValues={{
         title: post.title,
         body: post.body,
-        // image: "",
+        image: "",
       }}
       validationSchema={yup.object({
         title: yup.string().required(),
         body: yup.string().required(),
-        // image: yup.string().optional(),
+        image: yup.string().optional(),
       })}
       onSubmit={async (values) => {
-        await dispatch(editPost({ id: post.id, values }));
+        const formData = new FormData();
+
+        formData.append("title", values.title);
+        formData.append("body", values.body);
+
+        if (values.image) {
+          formData.append("image", image_file.current?.files![0] as File);
+        }
+
+        formData.append("_method", "PUT");
+
+        await dispatch(editPost({ id: post.id, formData }));
       }}
     >
       {({ errors, touched, isSubmitting, getFieldProps }) => (
@@ -61,7 +72,7 @@ const EditPostFormContent = () => {
               getFieldProps={getFieldProps}
             />
 
-            {/* <FormTextField
+            <FormTextField
               type="file"
               name="image"
               label="Image"
@@ -70,7 +81,7 @@ const EditPostFormContent = () => {
               getFieldProps={getFieldProps}
               InputLabelProps={{ shrink: true }}
               inputRef={image_file}
-            /> */}
+            />
           </DialogContent>
 
           <EditPostFormActions disabled={isSubmitting} />

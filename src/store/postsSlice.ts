@@ -40,10 +40,7 @@ type EditPostResponse = {
 
 type EditPostParams = {
   id: number;
-  values: {
-    title: string;
-    body: string;
-  };
+  formData: FormData;
 };
 
 type AddCommentResponse = {
@@ -101,11 +98,11 @@ export const addCommnet = createAsyncThunk(
 
 export const editPost = createAsyncThunk(
   "posts/editPost",
-  async ({ id, values }: EditPostParams) => {
-    const url = `${baseUrl}/jh${id}`;
+  async ({ id, formData }: EditPostParams) => {
+    const url = `${baseUrl}/${id}`;
     const token = localStorage.getItem("token");
 
-    const { data } = await axios.put<EditPostResponse>(url, values, {
+    const { data } = await axios.post<EditPostResponse>(url, formData, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -160,12 +157,6 @@ const postsSlice = createSlice({
       .addCase(editPost.fulfilled, (state, { payload }) => {
         state.error = "";
         state.post = { ...state.post, ...payload };
-
-        for (let i = 0; i < state.posts.length; i++) {
-          if (state.posts[i].id === payload.id) {
-            state.posts[i] = { ...state.posts[i], ...payload };
-          }
-        }
       })
       .addCase(editPost.rejected, (state, { error }) => {
         state.editPostError = error.message as string;

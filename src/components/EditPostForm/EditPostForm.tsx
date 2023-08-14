@@ -1,7 +1,8 @@
 import { Dialog } from "@mui/material";
+import EditPostFormContent from "./EditPostFormContent";
+
 import { closeEditPostFrom } from "../../store/editPostFromSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import EditPostFormContent from "./EditPostFormContent";
 
 const EditPostForm = () => {
   const dispatch = useAppDispatch();

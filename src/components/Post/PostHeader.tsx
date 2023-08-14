@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, CardHeader, IconButton } from "@mui/material";
 
@@ -19,6 +21,8 @@ const PostHeader = ({ postId, created_at, author }: Props): JSX.Element => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
+  const navigate = useNavigate();
+
   const renderAvatar = () => {
     return (
       <Avatar
@@ -38,6 +42,7 @@ const PostHeader = ({ postId, created_at, author }: Props): JSX.Element => {
       <IconButton
         color="primary"
         onClick={async () => {
+          navigate(`/post/${postId}`);
           await dispatch(getPost(postId));
           dispatch(openEditPostFrom());
         }}
