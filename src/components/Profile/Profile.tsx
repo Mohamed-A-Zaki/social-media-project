@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import { Box, Container, Typography } from "@mui/material";
 
 import UserPosts from "./UserPosts";
 import ProfileHeader from "./ProfileHeader";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { useEffect } from "react";
+
 import { getUser, getUserPosts } from "../../store/profileSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const Profile = () => {
   const { userId } = useParams();

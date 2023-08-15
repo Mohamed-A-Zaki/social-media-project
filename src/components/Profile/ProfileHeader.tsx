@@ -37,16 +37,16 @@ const ProfileHeader = ({ user }: Props) => {
 
       <Grid item xs={12} md={5} p={2}>
         <ProfileBasicInfo
-          name={user?.name as string}
-          email={user?.email as string}
-          username={user?.username as string}
+          name={user?.name ?? ""}
+          email={user?.email ?? ""}
+          username={user?.username ?? ""}
         />
       </Grid>
 
       <Grid item xs={12} md={4} p={2}>
         <ProfileStats
-          posts_count={user?.posts_count as number}
-          comments_count={user?.comments_count as number}
+          posts_count={user?.posts_count ?? 0}
+          comments_count={user?.comments_count ?? 0}
         />
       </Grid>
     </Grid>

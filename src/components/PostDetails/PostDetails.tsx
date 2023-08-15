@@ -11,10 +11,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const PostDetails = () => {
   const { id } = useParams();
+  const { token } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
   const { post, error, loading } = useAppSelector((state) => state.posts);
-  const { token } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getPost(Number(id)));

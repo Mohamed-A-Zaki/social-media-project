@@ -3,33 +3,65 @@ import { Avatar, Typography, Stack } from "@mui/material";
 
 const Comment = ({ author, body }: CommentType) => {
   const { profile_image, name, username, email } = author;
+  const isProfileImageString = typeof profile_image === "string";
 
   return (
-    <Stack
-      direction="row"
-      spacing={2}
-      sx={{ p: 2, my: 2, ml: 12, bgcolor: "#f2f2f2", borderRadius: 2 }}
-    >
+    <Stack direction="row" spacing={2} sx={commentContainerStyles}>
       <Avatar
-        sx={{ width: 50, height: 50, border: 1, borderColor: "#ccc" }}
-        src={typeof profile_image === "string" ? profile_image : undefined}
+        sx={avatarStyles}
+        src={isProfileImageString ? profile_image : undefined}
       />
 
-      <Stack direction="column" bgcolor="#fff" borderRadius={2} width={1} p={2}>
-        <Typography variant="subtitle2" fontSize={17}>
+      <Stack direction="column" sx={authorInfoContainerStyles}>
+        <Typography variant="subtitle2" sx={usernameStyles}>
           {`${username} - ( ${name} )`}
         </Typography>
 
-        <Typography variant="body2" color={"text.secondary"}>
+        <Typography variant="body2" sx={emailStyles}>
           {email}
         </Typography>
 
-        <Typography bgcolor="#fafafa" mt={2} p={2} borderRadius={2}>
-          {body}
-        </Typography>
+        <Typography sx={bodyStyles}>{body}</Typography>
       </Stack>
     </Stack>
   );
+};
+
+const commentContainerStyles = {
+  p: 2,
+  my: 2,
+  ml: 12,
+  bgcolor: "#f2f2f2",
+  borderRadius: 2,
+};
+
+const avatarStyles = {
+  width: 50,
+  height: 50,
+  border: 1,
+  borderColor: "#ccc",
+};
+
+const authorInfoContainerStyles = {
+  bgcolor: "#fff",
+  width: 1,
+  p: 2,
+  borderRadius: 2,
+};
+
+const usernameStyles = {
+  fontSize: 17,
+};
+
+const emailStyles = {
+  color: "text.secondary",
+};
+
+const bodyStyles = {
+  bgcolor: "#fafafa",
+  mt: 2,
+  p: 2,
+  borderRadius: 2,
 };
 
 export default Comment;
