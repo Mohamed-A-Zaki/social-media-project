@@ -4,6 +4,7 @@ import PersistLogin from "./helperComponents/PersistLogin";
 import PostDetails from "./components/PostDetails/PostDetails";
 import PostsList from "./helperComponents/PostsList";
 import Profile from "./components/Profile/Profile";
+import ScrollToTop from "./helperComponents/ScrollToTop";
 
 const router = createHashRouter([
   {
@@ -16,15 +17,27 @@ const router = createHashRouter([
     children: [
       {
         index: true,
-        element: <PostsList />,
+        element: (
+          <ScrollToTop>
+            <PostsList />
+          </ScrollToTop>
+        ),
       },
       {
         path: "/post/:id",
-        element: <PostDetails />,
+        element: (
+          <ScrollToTop>
+            <PostDetails />
+          </ScrollToTop>
+        ),
       },
       {
         path: "/profile/:userId",
-        element: <Profile />,
+        element: (
+          <ScrollToTop>
+            <Profile />
+          </ScrollToTop>
+        ),
       },
     ],
   },
