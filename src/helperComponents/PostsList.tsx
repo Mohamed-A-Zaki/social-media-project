@@ -2,24 +2,33 @@ import { useEffect } from "react";
 import { Alert, Box, Container } from "@mui/material";
 
 import Post from "../components/Post/Post";
-import { getPosts } from "../store/postsSlice";
+import { getPosts, increasePage } from "../store/postsSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const PostsList = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const { posts, loading, error } = useAppSelector((state) => state.posts);
+  const { posts, loading, error, page } = useAppSelector(
+    (state) => state.posts
+  );
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    dispatch(getPosts(page));
+  }, [dispatch, page]);
 
-  if (loading) {
-    return (
-      <Container fixed sx={{ my: 2, textAlign: "center", fontSize: 25 }}>
-        Loading...
-      </Container>
-    );
-  }
+  useEffect(() => {
+    const listenFun = () => {
+      const condition =
+        window.scrollY + window.innerHeight > document.body.scrollHeight - 100;
+
+      if (condition) {
+        dispatch(increasePage());
+      }
+    };
+
+    window.addEventListener("scroll", listenFun);
+
+    return () => window.removeEventListener("scroll", listenFun);
+  }, [dispatch]);
 
   if (error) {
     return (
@@ -42,6 +51,15 @@ const PostsList = (): JSX.Element => {
       {posts.map((post) => (
         <Post key={post.id} {...post} />
       ))}
+
+      {loading && (
+        <Container
+          fixed
+          sx={{ mt: 2, mb: 10, textAlign: "center", fontSize: 25 }}
+        >
+          Loading...
+        </Container>
+      )}
     </Box>
   );
 };

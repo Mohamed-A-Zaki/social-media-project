@@ -7,6 +7,7 @@ import CommentType from "../types/comment.type";
 type InitialState = {
   posts: PostType[];
   post: PostType;
+  page: number;
   loading: boolean;
   error: string;
   commentError: string;
@@ -17,6 +18,7 @@ type InitialState = {
 const initialState: InitialState = {
   posts: [],
   post: {} as PostType,
+  page: 1,
   loading: false,
   error: "",
   commentError: "",
@@ -38,6 +40,9 @@ type CreatePostResponse = {
 
 type EditPostResponse = {
   data: PostType;
+  meta: {
+    last_page: number;
+  };
 };
 
 type EditPostParams = {
@@ -58,11 +63,14 @@ type AddCommentParams = {
 
 const baseUrl = "https://tarmeezacademy.com/api/v1/posts";
 
-export const getPosts = createAsyncThunk("posts/getPosts", async () => {
-  const url = baseUrl;
-  const { data } = await axios.get<GetPostsResponse>(url);
-  return data.data;
-});
+export const getPosts = createAsyncThunk(
+  "posts/getPosts",
+  async (page: number) => {
+    const url = `${baseUrl}?page=${page}`;
+    const { data } = await axios.get<GetPostsResponse>(url);
+    return data.data;
+  }
+);
 
 export const getPost = createAsyncThunk("posts/getPost", async (id: number) => {
   const url = `${baseUrl}/${id}`;
@@ -129,7 +137,11 @@ export const deletePost = createAsyncThunk(
 const postsSlice = createSlice({
   name: "posts",
   initialState,
-  reducers: {},
+  reducers: {
+    increasePage: (state) => {
+      state.page++;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // get posts list
@@ -139,7 +151,7 @@ const postsSlice = createSlice({
       .addCase(getPosts.fulfilled, (state, { payload }) => {
         state.error = "";
         state.loading = false;
-        state.posts = payload;
+        state.posts = [...state.posts, ...payload];
       })
       .addCase(getPosts.rejected, (state, { error }) => {
         state.loading = false;
@@ -196,5 +208,7 @@ const postsSlice = createSlice({
       });
   },
 });
+
+export const { increasePage } = postsSlice.actions;
 
 export default postsSlice.reducer;
